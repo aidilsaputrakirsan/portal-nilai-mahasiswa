@@ -239,15 +239,18 @@ const searchQuery = ref('')
 const expandedCards = ref(new Set())
 const spreadsheetId = ref('')
 
-// Filtered Students
 const filteredStudents = computed(() => {
   if (!searchQuery.value) return students.value
   
   const query = searchQuery.value.toLowerCase()
-  return students.value.filter(student => 
-    student.nim.toLowerCase().includes(query) ||
-    student.nama.toLowerCase().includes(query)
-  )
+  return students.value.filter(student => {
+    // Convert ke string dulu, karena NIM bisa berupa number
+    const nim = String(student.nim || '')
+    const nama = String(student.nama || '')
+    
+    return nim.toLowerCase().includes(query) || 
+           nama.toLowerCase().includes(query)
+  })
 })
 
 // Toggle Detail
