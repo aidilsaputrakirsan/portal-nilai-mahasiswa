@@ -88,48 +88,70 @@
         >
           <!-- Header Card -->
           <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
-            <div class="flex justify-between items-start">
+            <div class="flex justify-between items-center">
               <div>
-                <p class="text-sm opacity-90">NIM</p>
+                <p class="text-xs opacity-90 mb-1">NIM</p>
                 <p class="text-lg font-bold">{{ student.nim }}</p>
               </div>
               <div class="text-right">
-                <p class="text-sm opacity-90">Nilai Akhir</p>
-                <p class="text-2xl font-bold">{{ student.nilaiHuruf }}</p>
+                <p class="text-xs opacity-90 mb-1">Nama</p>
+                <p class="text-lg font-bold">{{ student.nama }}</p>
               </div>
             </div>
-            <p class="text-xl font-semibold mt-2">{{ student.nama }}</p>
           </div>
 
           <!-- Data Content -->
           <div class="p-4">
-            <!-- Nilai Akhir Summary -->
-            <div class="grid grid-cols-2 gap-3 mb-4">
-              <div class="bg-blue-50 rounded-lg p-3">
-                <p class="text-xs text-gray-600 mb-1">Tugas (15%)</p>
-                <p class="text-lg font-bold text-blue-600">{{ student.tugas }}</p>
+            <!-- NILAI AKHIR - HIGHLIGHT CARD -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white mb-6 shadow-lg">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-bold flex items-center">
+                  <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                  NILAI AKHIR
+                </h3>
+                <span class="text-sm opacity-90">Total 100%</span>
               </div>
-              <div class="bg-green-50 rounded-lg p-3">
-                <p class="text-xs text-gray-600 mb-1">Kehadiran (10%)</p>
-                <p class="text-lg font-bold text-green-600">{{ student.kehadiran }}</p>
+              
+              <div class="flex items-end justify-between">
+                <div>
+                  <p class="text-sm opacity-90 mb-1">Nilai Hasil</p>
+                  <p class="text-5xl font-bold">{{ student.nilaiHasil }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm opacity-90 mb-1">Grade</p>
+                  <p class="text-6xl font-bold">{{ student.nilaiHuruf }}</p>
+                </div>
               </div>
-              <div class="bg-yellow-50 rounded-lg p-3">
-                <p class="text-xs text-gray-600 mb-1">UTS (10%)</p>
-                <p class="text-lg font-bold text-yellow-600">{{ student.uts }}</p>
+            </div>
+
+            <!-- Breakdown Nilai Komponen -->
+            <h4 class="text-sm font-semibold text-gray-700 mb-3">📋 Breakdown Nilai Komponen</h4>
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-blue-50 rounded-lg p-3">
+                  <p class="text-xs text-gray-600 mb-1">Tugas (15%)</p>
+                  <p class="text-lg font-bold text-blue-600">{{ student.tugas }}</p>
+                </div>
+                <div class="bg-green-50 rounded-lg p-3">
+                  <p class="text-xs text-gray-600 mb-1">Kehadiran (10%)</p>
+                  <p class="text-lg font-bold text-green-600">{{ student.kehadiran }}</p>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-3">
+                  <p class="text-xs text-gray-600 mb-1">UTS (10%)</p>
+                  <p class="text-lg font-bold text-yellow-600">{{ student.uts }}</p>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-3">
+                  <p class="text-xs text-gray-600 mb-1">Peer Review (5%)</p>
+                  <p class="text-2xl font-bold text-pink-600">{{ student.peerReview }}</p>
+                </div>
               </div>
-              <div class="bg-purple-50 rounded-lg p-3">
+
+              <!-- Peer Review - Full Width, Centered -->
+              <div class="bg-pink-50 rounded-lg p-4 mb-4 text-center">
                 <p class="text-xs text-gray-600 mb-1">UAS (60%)</p>
                 <p class="text-lg font-bold text-purple-600">{{ student.uas }}</p>
               </div>
-              <div class="bg-pink-50 rounded-lg p-3">
-                <p class="text-xs text-gray-600 mb-1">Peer Review (5%)</p>
-                <p class="text-lg font-bold text-pink-600">{{ student.peerReview }}</p>
-              </div>
-              <div class="bg-indigo-50 rounded-lg p-3">
-                <p class="text-xs text-gray-600 mb-1">Nilai Hasil (100%)</p>
-                <p class="text-lg font-bold text-indigo-600">{{ student.nilaiHasil }}</p>
-              </div>
-            </div>
 
             <!-- Detail Button -->
             <button 
@@ -181,6 +203,78 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+            <!-- TAMBAH INI - Button Detail UAS -->
+            <button 
+              @click="toggleUasDetail(student.nim)"
+              class="w-full mt-3 py-2 bg-purple-50 hover:bg-purple-100 rounded-lg font-medium text-purple-700 transition-colors flex items-center justify-center"
+            >
+              <span>{{ expandedUasCards.has(student.nim) ? 'Sembunyikan' : 'Lihat' }} Detail UAS</span>
+              <svg 
+                class="w-5 h-5 ml-2 transition-transform" 
+                :class="{ 'rotate-180': expandedUasCards.has(student.nim) }"
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- TAMBAH INI - Tabel Detail UAS -->
+            <div 
+              v-if="expandedUasCards.has(student.nim)"
+              class="mt-4 p-4 bg-purple-50 rounded-lg"
+            >
+              <h4 class="text-sm font-semibold text-gray-700 mb-3">
+                📊 Breakdown Nilai UAS (60%)
+              </h4>
+              <p class="text-xs text-gray-600 mb-4">
+                Nilai UAS dihitung dari: <strong>Monitoring 1 (30%)</strong> + <strong>Monitoring 2 (30%)</strong> + <strong>Presentasi Final (40%)</strong>
+              </p>
+              
+              <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white rounded-lg p-3 border border-purple-200">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-700">Monitoring 1 - Minggu 12</span>
+                    <span class="text-xs text-gray-500">(30%)</span>
+                  </div>
+                  <p class="text-2xl font-bold text-purple-600 mt-1">
+                    {{ student.uasDetail.monitoring1 }}
+                  </p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-3 border border-purple-200">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-700">Monitoring 2 - Minggu 14</span>
+                    <span class="text-xs text-gray-500">(30%)</span>
+                  </div>
+                  <p class="text-2xl font-bold text-purple-600 mt-1">
+                    {{ student.uasDetail.monitoring2 }}
+                  </p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-3 border border-purple-200">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-700">Presentasi Final - Minggu 16</span>
+                    <span class="text-xs text-gray-500">(40%)</span>
+                  </div>
+                  <p class="text-2xl font-bold text-purple-600 mt-1">
+                    {{ student.uasDetail.presentasiFinal }}
+                  </p>
+                </div>
+
+                <div class="bg-purple-600 rounded-lg p-3 text-white mt-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm font-semibold">Total Nilai UAS</span>
+                    <span class="text-xs opacity-90">(100%)</span>
+                  </div>
+                  <p class="text-3xl font-bold mt-1">
+                    {{ student.uas }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -237,6 +331,7 @@ const loading = ref(false)
 const students = ref([])
 const searchQuery = ref('')
 const expandedCards = ref(new Set())
+const expandedUasCards = ref(new Set())
 const spreadsheetId = ref('')
 
 const filteredStudents = computed(() => {
@@ -259,6 +354,15 @@ const toggleDetail = (nim) => {
     expandedCards.value.delete(nim)
   } else {
     expandedCards.value.add(nim)
+  }
+}
+
+// Toggle Detail UAS - TAMBAH INI
+const toggleUasDetail = (nim) => {
+  if (expandedUasCards.value.has(nim)) {
+    expandedUasCards.value.delete(nim)
+  } else {
+    expandedUasCards.value.add(nim)
   }
 }
 
@@ -391,7 +495,12 @@ const parseStudentData = (rawData) => {
       uas: formatNumber(row[20]),
       peerReview: formatNumber(row[21]),
       nilaiHasil: formatNumber(row[22]),
-      nilaiHuruf: row[23] || '-'
+      nilaiHuruf: row[23] || '-',
+      uasDetail: {
+        monitoring1: formatNumber(row[24]), // Kolom Y (index 24)
+        monitoring2: formatNumber(row[25]), // Kolom Z (index 25)
+        presentasiFinal: formatNumber(row[26]) // Kolom AA (index 26)
+      }
     }
   })
 }
