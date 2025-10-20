@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-        📊 Portal Nilai Mahasiswa
+        📊 Grade Verse
       </h1>
       <p class="text-gray-600">Pilih Mata Kuliah untuk melihat nilai</p>
     </div>
@@ -69,7 +69,7 @@
 
     <!-- Footer -->
     <div class="mt-12 text-center text-gray-500 text-sm">
-      <p>© 2025 Portal Nilai Mahasiswa</p>
+      <p>© 2025 Grade Verse - ADL</p>
     </div>
   </div>
 </template>
