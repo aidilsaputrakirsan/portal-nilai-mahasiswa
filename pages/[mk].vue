@@ -46,13 +46,6 @@
             Akses Data
           </button>
         </form>
-
-        <!-- Password Hint (untuk testing) -->
-        <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p class="text-xs text-yellow-700">
-            💡 <strong>Password Testing:</strong> {{ config.public.passwords[mkCode] }}
-          </p>
-        </div>
       </div>
     </div>
 
@@ -157,37 +150,37 @@
 
             <!-- Detail Mingguan (Collapsible) -->
             <div 
-            v-if="expandedCards.has(student.nim)"
-            class="mt-4 overflow-x-auto"
+              v-if="expandedCards.has(student.nim)"
+              class="mt-4 overflow-x-auto"
             >
-            <table class="min-w-full text-sm">
+              <table class="min-w-full text-sm">
                 <thead>
-                <tr class="bg-gray-100">
+                  <tr class="bg-gray-100">
                     <th class="px-3 py-2 text-left font-semibold text-gray-700">Minggu</th>
                     <th class="px-3 py-2 text-center font-semibold text-gray-700">Pekan</th>
                     <th class="px-3 py-2 text-center font-semibold text-gray-700">Tugas</th>
-                </tr>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr v-for="week in student.weekly" :key="week.week" class="border-b">
+                  <tr v-for="week in student.weekly" :key="week.week" class="border-b">
                     <td class="px-3 py-2 font-medium text-gray-700">{{ week.week }}</td>
                     <td class="px-3 py-2 text-center">
-                    <span class="inline-block px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
+                      <span class="inline-block px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
                         {{ week.pekan }}
-                    </span>
+                      </span>
                     </td>
                     <td class="px-3 py-2 text-center">
-                    <span 
+                      <span 
                         v-if="week.tugas" 
                         class="inline-block px-2 py-1 rounded bg-green-100 text-green-700 font-medium"
-                    >
+                      >
                         {{ week.tugas }}
-                    </span>
-                    <span v-else class="text-gray-400">-</span>
+                      </span>
+                      <span v-else class="text-gray-400">-</span>
                     </td>
-                </tr>
+                  </tr>
                 </tbody>
-            </table>
+              </table>
             </div>
           </div>
         </div>
@@ -222,7 +215,6 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const config = useRuntimeConfig()
 
 // MK Code dari URL
 const mkCode = computed(() => route.params.mk)
@@ -245,6 +237,7 @@ const loading = ref(false)
 const students = ref([])
 const searchQuery = ref('')
 const expandedCards = ref(new Set())
+const spreadsheetId = ref('')
 
 // Filtered Students
 const filteredStudents = computed(() => {
@@ -266,21 +259,41 @@ const toggleDetail = (nim) => {
   }
 }
 
-// Handle Login
-const handleLogin = () => {
-  const correctPassword = config.public.passwords[mkCode.value]
+// Handle Login - panggil API untuk validasi password
+const handleLogin = async () => {
+  errorMessage.value = ''
   
-  if (passwordInput.value === correctPassword) {
-    isAuthenticated.value = true
-    errorMessage.value = ''
-    // Save to sessionStorage
-    if (process.client) {
-      sessionStorage.setItem(`auth_${mkCode.value}`, 'true')
+  try {
+    const response = await fetch('/api/validate-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mkCode: mkCode.value,
+        password: passwordInput.value
+      })
+    })
+    
+    const data = await response.json()
+    
+    if (data.success) {
+      isAuthenticated.value = true
+      spreadsheetId.value = data.spreadsheetId
+      errorMessage.value = ''
+      
+      if (process.client) {
+        sessionStorage.setItem(`auth_${mkCode.value}`, 'true')
+        sessionStorage.setItem(`sheet_${mkCode.value}`, data.spreadsheetId)
+      }
+      
+      fetchData()
+    } else {
+      errorMessage.value = data.message || 'Password salah!'
     }
-    // Fetch data
-    fetchData()
-  } else {
-    errorMessage.value = 'Password salah!'
+  } catch (error) {
+    errorMessage.value = 'Gagal validasi password'
+    console.error('Login error:', error)
   }
 }
 
@@ -289,35 +302,35 @@ const handleLogout = () => {
   isAuthenticated.value = false
   students.value = []
   passwordInput.value = ''
+  spreadsheetId.value = ''
   if (process.client) {
     sessionStorage.removeItem(`auth_${mkCode.value}`)
+    sessionStorage.removeItem(`sheet_${mkCode.value}`)
   }
 }
 
-// Fetch Data from GAS
 // Fetch Data from GAS via API Route
 const fetchData = async () => {
   loading.value = true
   errorMessage.value = ''
   
   try {
-    const spreadsheetId = config.public.spreadsheetIds[mkCode.value]
+    const sheetId = spreadsheetId.value
     
-    if (!spreadsheetId) {
-      // Untuk testing tanpa spreadsheet ID
-      students.value = generateDummyData()
+    if (!sheetId) {
+      students.value = []
+      errorMessage.value = 'Spreadsheet ID tidak ditemukan'
       return
     }
 
-    // Panggil API route Nuxt (bukan langsung ke GAS)
     const response = await fetch('/api/sheets', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        spreadsheetId: spreadsheetId,
-        sheetName: config.public.sheetName
+        spreadsheetId: sheetId,
+        sheetName: 'Nilai'
       })
     })
 
@@ -333,13 +346,12 @@ const fetchData = async () => {
       throw new Error(data.message || 'Gagal mengambil data')
     }
   } catch (error) {
-    errorMessage.value = error.message
+    errorMessage.value = error.message || 'Terjadi kesalahan'
     console.error('Error fetching data:', error)
   } finally {
     loading.value = false
   }
 }
-
 
 // Helper function untuk format angka (max 2 desimal)
 const formatNumber = (value) => {
@@ -347,9 +359,8 @@ const formatNumber = (value) => {
   
   const num = typeof value === 'number' ? value : parseFloat(value)
   
-  if (isNaN(num)) return value // Kalau bukan angka, return apa adanya
+  if (isNaN(num)) return value
   
-  // Bulatkan ke 2 desimal, lalu hapus trailing zeros
   return Number(num.toFixed(0)).toString()
 }
 
@@ -369,7 +380,7 @@ const parseStudentData = (rawData) => {
         { week: 'Minggu 5', pekan: row[10] || '-', tugas: row[11] || '-' },
         { week: 'Minggu 6', pekan: row[12] || '-', tugas: row[13] || '-' },
         { week: 'Minggu 7', pekan: row[14] || '-', tugas: row[15] || '-' },
-        { week: 'Minggu UTS', pekan: row[16] || '-', tugas: '' }, // Minggu 8 tanpa tugas
+        { week: 'Minggu UTS', pekan: row[16] || '-', tugas: '' },
       ],
       tugas: formatNumber(row[17]),
       kehadiran: formatNumber(row[18]),
@@ -386,8 +397,11 @@ const parseStudentData = (rawData) => {
 onMounted(() => {
   if (process.client) {
     const savedAuth = sessionStorage.getItem(`auth_${mkCode.value}`)
-    if (savedAuth === 'true') {
+    const savedSheet = sessionStorage.getItem(`sheet_${mkCode.value}`)
+    
+    if (savedAuth === 'true' && savedSheet) {
       isAuthenticated.value = true
+      spreadsheetId.value = savedSheet
       fetchData()
     }
   }

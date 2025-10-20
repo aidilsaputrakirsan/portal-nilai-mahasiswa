@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
@@ -21,20 +20,14 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Format: password:spreadsheetId
+    mkPm: '',
+    mkKka: '',
+    mkKkb: '',
+    mkDmjk: '',
+    
     public: {
-      passwords: {
-        pm: 'pm7x9k2',
-        kka: 'kk4a8m1',
-        kkb: 'kk5b3n7',
-        dmjk: 'dm6j2p9'
-      },
-      spreadsheetIds: {
-        pm: '15eQiYlMmJvAhEE15sx9FUL7bLirhniOb9oErCOWJHY0',
-        kka: '',
-        kkb: '',
-        dmjk: ''
-      },
-      sheetName: 'Nilai' 
+      sheetName: 'Nilai'
     }
   }
 })
