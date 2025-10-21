@@ -51,10 +51,26 @@
 
     <!-- Data Display (jika sudah authenticated) -->
     <div v-else>
-      <!-- Loading State -->
+     <!-- Loading State -->
       <div v-if="loading" class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <p class="text-gray-600 mt-4">Memuat data...</p>
+        <div class="relative">
+          <!-- Animated Book Icon -->
+          <div class="text-8xl animate-bounce">
+            📚
+          </div>
+          <div class="text-4xl animate-spin absolute top-0 left-1/2 transform -translate-x-1/2 opacity-30">
+            
+          </div>
+        </div>
+        <p class="text-gray-700 font-semibold mt-6">Bentar ya, lagi ambil nilai kamu...</p>
+        <p class="text-gray-500 text-sm mt-2">Gak lama kok! 😊</p>
+        
+        <!-- Progress Bar Animation -->
+        <div class="max-w-xs mx-auto mt-4">
+          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 animate-progress"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Error State -->
@@ -519,3 +535,21 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+</style>
