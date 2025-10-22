@@ -144,30 +144,54 @@
 
             <!-- Breakdown Nilai Komponen -->
             <h4 class="text-sm font-semibold text-gray-700 mb-3">📋 Breakdown Nilai Komponen</h4>
-              <div class="grid grid-cols-2 gap-3 mb-4">
-                <div class="bg-blue-50 rounded-lg p-3">
-                  <p class="text-xs text-gray-600 mb-1">Tugas (15%)</p>
-                  <p class="text-lg font-bold text-blue-600">{{ student.tugas }}</p>
-                </div>
-                <div class="bg-green-50 rounded-lg p-3">
-                  <p class="text-xs text-gray-600 mb-1">Kehadiran (10%)</p>
-                  <p class="text-lg font-bold text-green-600">{{ student.kehadiran }}</p>
-                </div>
-                <div class="bg-yellow-50 rounded-lg p-3">
-                  <p class="text-xs text-gray-600 mb-1">UTS (10%)</p>
-                  <p class="text-lg font-bold text-yellow-600">{{ student.uts }}</p>
-                </div>
-                <div class="bg-purple-50 rounded-lg p-3">
-                  <p class="text-xs text-gray-600 mb-1">Peer Review (5%)</p>
-                  <p class="text-2xl font-bold text-pink-600">{{ student.peerReview }}</p>
-                </div>
-              </div>
 
-              <!-- Peer Review - Full Width, Centered -->
-              <div class="bg-pink-50 rounded-lg p-4 mb-4 text-center">
-                <p class="text-xs text-gray-600 mb-1">UAS (60%)</p>
+            <!-- DMJK: 2x2 grid tanpa Peer Review -->
+            <div v-if="mkCode === 'dmjk'" class="grid grid-cols-2 gap-3 mb-4">
+              <div class="bg-blue-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">Tugas (15%)</p>
+                <p class="text-lg font-bold text-blue-600">{{ student.tugas }}</p>
+              </div>
+              <div class="bg-green-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">Kehadiran (20%)</p>
+                <p class="text-lg font-bold text-green-600">{{ student.kehadiran }}</p>
+              </div>
+              <div class="bg-yellow-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">UTS (25%)</p>
+                <p class="text-lg font-bold text-yellow-600">{{ student.uts }}</p>
+              </div>
+              <div class="bg-purple-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">UAS (40%)</p>
                 <p class="text-lg font-bold text-purple-600">{{ student.uas }}</p>
               </div>
+            </div>
+
+            <!-- PM, KKA, KKB: 2x2 + 1 full width (dengan Peer Review) -->
+            <div v-else>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <div class="bg-blue-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">Tugas (15%)</p>
+                <p class="text-lg font-bold text-blue-600">{{ student.tugas }}</p>
+              </div>
+              <div class="bg-green-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">Kehadiran (10%)</p>
+                <p class="text-lg font-bold text-green-600">{{ student.kehadiran }}</p>
+              </div>
+              <div class="bg-yellow-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">UTS (10%)</p>
+                <p class="text-lg font-bold text-yellow-600">{{ student.uts }}</p>
+              </div>
+              <div class="bg-pink-50 rounded-lg p-3">
+                <p class="text-xs text-gray-600 mb-1">Peer Review (5%)</p>
+                <p class="text-lg font-bold text-pink-600">{{ student.peerReview }}</p>
+              </div>
+            </div>
+
+            <!-- UAS - Full Width, Centered -->
+            <div class="bg-purple-50 rounded-lg p-4 mb-4 text-center">
+              <p class="text-xs text-gray-600 mb-1">UAS (60%)</p>
+              <p class="text-2xl font-bold text-purple-600">{{ student.uas }}</p>
+            </div>
+          </div>
 
             <!-- Detail Button -->
             <button 
@@ -238,57 +262,120 @@
               </svg>
             </button>
 
-            <!-- TAMBAH INI - Tabel Detail UAS -->
+            <!-- Tabel Detail UAS -->
             <div 
               v-if="expandedUasCards.has(student.nim)"
               class="mt-4 p-4 bg-purple-50 rounded-lg"
             >
               <h4 class="text-sm font-semibold text-gray-700 mb-3">
-                📊 Breakdown Nilai UAS (60%)
+                📊 Breakdown Nilai UAS
               </h4>
-              <p class="text-xs text-gray-600 mb-4">
-                Nilai UAS dihitung dari: <strong>Monitoring 1 (30%)</strong> + <strong>Monitoring 2 (30%)</strong> + <strong>Presentasi Final (40%)</strong>
-              </p>
-              
-              <div class="grid grid-cols-1 gap-3">
-                <div class="bg-white rounded-lg p-3 border border-purple-200">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-700">Monitoring 1 - Minggu 12</span>
-                    <span class="text-xs text-gray-500">(30%)</span>
-                  </div>
-                  <p class="text-2xl font-bold text-purple-600 mt-1">
-                    {{ student.uasDetail.monitoring1 }}
-                  </p>
-                </div>
-                
-                <div class="bg-white rounded-lg p-3 border border-purple-200">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-700">Monitoring 2 - Minggu 14</span>
-                    <span class="text-xs text-gray-500">(30%)</span>
-                  </div>
-                  <p class="text-2xl font-bold text-purple-600 mt-1">
-                    {{ student.uasDetail.monitoring2 }}
-                  </p>
-                </div>
-                
-                <div class="bg-white rounded-lg p-3 border border-purple-200">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-700">Presentasi Final - Minggu 16</span>
-                    <span class="text-xs text-gray-500">(40%)</span>
-                  </div>
-                  <p class="text-2xl font-bold text-purple-600 mt-1">
-                    {{ student.uasDetail.presentasiFinal }}
-                  </p>
-                </div>
 
-                <div class="bg-purple-600 rounded-lg p-3 text-white mt-2">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm font-semibold">Total Nilai UAS</span>
-                    <span class="text-xs opacity-90">(100%)</span>
+              <!-- DMJK: 4 Soal (40% total) -->
+              <div v-if="mkCode === 'dmjk'">
+                <p class="text-xs text-gray-600 mb-4">
+                  Nilai UAS (40%) dihitung dari: <strong>Soal 1 (5%)</strong> + <strong>Soal 2 (5%)</strong> + <strong>Soal 3 (5%)</strong> + <strong>Soal Final (25%)</strong>
+                </p>
+                
+                <div class="grid grid-cols-1 gap-3">
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Soal 1 - Minggu 11</span>
+                      <span class="text-xs text-gray-500">(5%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.soal1 }}
+                    </p>
                   </div>
-                  <p class="text-3xl font-bold mt-1">
-                    {{ student.uas }}
-                  </p>
+                  
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Soal 2 - Minggu 12</span>
+                      <span class="text-xs text-gray-500">(5%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.soal2 }}
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Soal 3 - Minggu 13</span>
+                      <span class="text-xs text-gray-500">(5%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.soal3 }}
+                    </p>
+                  </div>
+
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Soal Final - Minggu 16</span>
+                      <span class="text-xs text-gray-500">(25%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.soalFinal }}
+                    </p>
+                  </div>
+
+                  <div class="bg-purple-600 rounded-lg p-3 text-white mt-2">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm font-semibold">Total Nilai UAS</span>
+                      <span class="text-xs opacity-90">(40%)</span>
+                    </div>
+                    <p class="text-3xl font-bold mt-1">
+                      {{ student.uas }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PM, KKA, KKB: 3 Monitoring (60% total) -->
+              <div v-else>
+                <p class="text-xs text-gray-600 mb-4">
+                  Nilai UAS (60%) dihitung dari: <strong>Monitoring 1 (15%)</strong> + <strong>Monitoring 2 (15%)</strong> + <strong>Presentasi Final (30%)</strong>
+                </p>
+                
+                <div class="grid grid-cols-1 gap-3">
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Monitoring 1 - Minggu 12</span>
+                      <span class="text-xs text-gray-500">(15%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.monitoring1 }}
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Monitoring 2 - Minggu 14</span>
+                      <span class="text-xs text-gray-500">(15%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.monitoring2 }}
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white rounded-lg p-3 border border-purple-200">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-700">Presentasi Final - Minggu 16</span>
+                      <span class="text-xs text-gray-500">(30%)</span>
+                    </div>
+                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                      {{ student.uasDetail.presentasiFinal }}
+                    </p>
+                  </div>
+
+                  <div class="bg-purple-600 rounded-lg p-3 text-white mt-2">
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm font-semibold">Total Nilai UAS</span>
+                      <span class="text-xs opacity-90">(60%)</span>
+                    </div>
+                    <p class="text-3xl font-bold mt-1">
+                      {{ student.uas }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -492,30 +579,64 @@ const parseStudentData = (rawData) => {
   const rows = rawData.slice(1) // Skip header
   
   return rows.map(row => {
-    return {
-      nim: row[0] || '',
-      nama: row[1] || '',
-      weekly: [
-        { week: 'Minggu 1', pekan: row[2] || '-', tugas: row[3] || '-' },
-        { week: 'Minggu 2', pekan: row[4] || '-', tugas: row[5] || '-' },
-        { week: 'Minggu 3', pekan: row[6] || '-', tugas: row[7] || '-' },
-        { week: 'Minggu 4', pekan: row[8] || '-', tugas: row[9] || '-' },
-        { week: 'Minggu 5', pekan: row[10] || '-', tugas: row[11] || '-' },
-        { week: 'Minggu 6', pekan: row[12] || '-', tugas: row[13] || '-' },
-        { week: 'Minggu 7', pekan: row[14] || '-', tugas: row[15] || '-' },
-        { week: 'Minggu UTS', pekan: row[16] || '-', tugas: '' },
-      ],
-      tugas: formatNumber(row[17]),
-      kehadiran: formatNumber(row[18]),
-      uts: formatNumber(row[19]),
-      uas: formatNumber(row[20]),
-      peerReview: formatNumber(row[21]),
-      nilaiHasil: formatNumber(row[22]),
-      nilaiHuruf: row[23] || '-',
-      uasDetail: {
-        monitoring1: formatNumber(row[24]), // Kolom Y (index 24)
-        monitoring2: formatNumber(row[25]), // Kolom Z (index 25)
-        presentasiFinal: formatNumber(row[26]) // Kolom AA (index 26)
+    // Conditional: DMJK struktur kolom berbeda
+    if (mkCode.value === 'dmjk') {
+      return {
+        nim: row[0] || '',
+        nama: row[1] || '',
+        weekly: [
+          { week: 'Minggu 1', pekan: row[2] || '-', tugas: row[3] || '-' },
+          { week: 'Minggu 2', pekan: row[4] || '-', tugas: row[5] || '-' },
+          { week: 'Minggu 3', pekan: row[6] || '-', tugas: row[7] || '-' },
+          { week: 'Minggu 4', pekan: row[8] || '-', tugas: row[9] || '-' },
+          { week: 'Minggu 5', pekan: row[10] || '-', tugas: row[11] || '-' },
+          { week: 'Minggu 6', pekan: row[12] || '-', tugas: row[13] || '-' },
+          { week: 'Minggu 7', pekan: row[14] || '-', tugas: row[15] || '-' },
+          { week: 'Minggu UTS', pekan: row[16] || '-', tugas: '' }, // Pekan 8 - TANPA TUGAS
+          { week: 'Minggu 9', pekan: row[17] || '-', tugas: row[18] || '-' },
+          { week: 'Minggu 10', pekan: row[19] || '-', tugas: row[20] || '-' }
+        ],
+        tugas: formatNumber(row[21]),        // Kolom V (index 21)
+        kehadiran: formatNumber(row[22]),    // Kolom W (index 22)
+        uts: formatNumber(row[23]),          // Kolom X (index 23)
+        uas: formatNumber(row[24]),          // Kolom Y (index 24)
+        nilaiHasil: formatNumber(row[25]),   // Kolom Z (index 25)
+        nilaiHuruf: row[26] || '-',          // Kolom AA (index 26)
+        peerReview: null,                    // DMJK tidak punya Peer Review
+        uasDetail: {
+          soal1: formatNumber(row[27]),      // Kolom AB (index 27)
+          soal2: formatNumber(row[28]),      // Kolom AC (index 28)
+          soal3: formatNumber(row[29]),      // Kolom AD (index 29)
+          soalFinal: formatNumber(row[30])   // Kolom AE (index 30)
+        }
+      }
+    } else {
+      // Default untuk PM, KKA, KKB
+      return {
+        nim: row[0] || '',
+        nama: row[1] || '',
+        weekly: [
+          { week: 'Minggu 1', pekan: row[2] || '-', tugas: row[3] || '-' },
+          { week: 'Minggu 2', pekan: row[4] || '-', tugas: row[5] || '-' },
+          { week: 'Minggu 3', pekan: row[6] || '-', tugas: row[7] || '-' },
+          { week: 'Minggu 4', pekan: row[8] || '-', tugas: row[9] || '-' },
+          { week: 'Minggu 5', pekan: row[10] || '-', tugas: row[11] || '-' },
+          { week: 'Minggu 6', pekan: row[12] || '-', tugas: row[13] || '-' },
+          { week: 'Minggu 7', pekan: row[14] || '-', tugas: row[15] || '-' },
+          { week: 'Minggu UTS', pekan: row[16] || '-', tugas: '' }
+        ],
+        tugas: formatNumber(row[17]),
+        kehadiran: formatNumber(row[18]),
+        uts: formatNumber(row[19]),
+        uas: formatNumber(row[20]),
+        peerReview: formatNumber(row[21]),
+        nilaiHasil: formatNumber(row[22]),
+        nilaiHuruf: row[23] || '-',
+        uasDetail: {
+          monitoring1: formatNumber(row[24]),      // Kolom Y
+          monitoring2: formatNumber(row[25]),      // Kolom Z
+          presentasiFinal: formatNumber(row[26])   // Kolom AA
+        }
       }
     }
   })
