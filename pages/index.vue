@@ -5,7 +5,7 @@
       <!-- Header -->
       <div class="text-center mb-8 backdrop-blur-sm bg-white/10 dark:bg-gray-800/20 rounded-3xl p-8 border border-white/20 dark:border-gray-600/20 shadow-2xl">
         <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent mb-3">
-          📊 Grade Verse
+          🎓Grade Verse
         </h1>
         <p class="text-gray-700 dark:text-gray-300 font-medium">Pilih Mata Kuliah untuk melihat nilai</p>
       </div>

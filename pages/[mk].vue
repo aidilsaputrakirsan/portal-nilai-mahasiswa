@@ -51,27 +51,65 @@
 
     <!-- Data Display (jika sudah authenticated) -->
     <div v-else>
-      <!-- Loading State -->
-      <div v-if="loading" class="text-center py-12">
-        <div class="relative">
-          <!-- Animated Book Icon -->
-          <div class="text-8xl animate-bounce">
-            📚
-          </div>
-          <div class="text-4xl animate-spin absolute top-0 left-1/2 transform -translate-x-1/2 opacity-30">
-            🔄
-          </div>
-        </div>
-        <p class="text-gray-700 dark:text-gray-300 font-semibold mt-6">Bentar ya, lagi ambil nilai kamu...</p>
-        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Gak lama kok! 😊</p>
-        
-        <!-- Progress Bar Animation -->
-        <div class="max-w-xs mx-auto mt-4">
-          <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 animate-progress"></div>
-          </div>
+
+   <!-- Academic Blue Loading -->
+<div v-if="loading" class="text-center py-12">
+  <!-- Academic Book Animation -->
+  <div class="mx-auto w-24 h-24 mb-8 relative">
+    <!-- Main Book -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg shadow-xl animate-book-float">
+      <!-- Book Spine -->
+      <div class="absolute left-0 top-2 bottom-2 w-2 bg-blue-800 rounded-l-lg"></div>
+      
+      <!-- Book Pages -->
+      <div class="absolute top-3 left-3 right-3 bottom-3 bg-white rounded shadow-inner">
+        <!-- Page Lines -->
+        <div class="absolute top-2 left-2 right-2">
+          <div class="h-px bg-gray-300 mb-1 animate-writing-1"></div>
+          <div class="h-px bg-gray-300 mb-1 animate-writing-2"></div>
+          <div class="h-px bg-gray-300 mb-1 animate-writing-3"></div>
         </div>
       </div>
+    </div>
+    
+    <!-- Floating Academic Elements -->
+    <div class="absolute -top-3 -right-3 text-2xl animate-float-1">🎓</div>
+    <div class="absolute -bottom-3 -left-3 text-xl animate-float-2">📊</div>
+    <div class="absolute top-0 -left-4 text-lg animate-float-3">✏️</div>
+    <div class="absolute -top-2 left-0 text-base animate-float-4">📝</div>
+  </div>
+
+  <!-- Friendly Loading Text -->
+  <div class="space-y-3">
+    <p class="text-gray-700 dark:text-gray-300 font-semibold text-lg animate-text-glow">
+      📖 Tunggu sebentar ya, lagi ambil nilai kamu...
+    </p>
+    <p class="text-gray-500 dark:text-gray-400 text-sm animate-slide-up">
+      Sistemnya lagi kerja keras nih, sabar ya! 😊📈
+    </p>
+  </div>
+
+  <!-- Clean Blue Progress Dots -->
+  <div class="flex justify-center space-x-3 mt-6">
+    <div class="w-3 h-3 bg-blue-400 rounded-full animate-dot-1 shadow-sm"></div>
+    <div class="w-3 h-3 bg-indigo-400 rounded-full animate-dot-2 shadow-sm"></div>
+    <div class="w-3 h-3 bg-blue-500 rounded-full animate-dot-3 shadow-sm"></div>
+    <div class="w-3 h-3 bg-slate-400 rounded-full animate-dot-4 shadow-sm"></div>
+    <div class="w-3 h-3 bg-gray-500 rounded-full animate-dot-5 shadow-sm"></div>
+  </div>
+
+  <!-- Status Messages -->
+  <div class="mt-6 space-y-2">
+    <p class="text-xs text-gray-400 dark:text-gray-500 animate-fade-in-1">
+      🧮 Menghitung komponen nilai...
+    </p>
+    <p class="text-xs text-gray-400 dark:text-gray-500 animate-fade-in-2">
+      📋 Memproses data akademik...
+    </p>
+  </div>
+</div>
+
+
 
       <!-- Error State -->
       <div v-else-if="errorMessage" class="bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm border border-red-200 dark:border-red-800 rounded-2xl p-6 text-center shadow-lg">
@@ -674,23 +712,177 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-  50% {
-    width: 70%;
-  }
-  100% {
-    width: 100%;
-  }
+/* Book Float Animation */
+@keyframes book-float {
+  0%, 100% { transform: translateY(0) rotateY(0deg); }
+  50% { transform: translateY(-8px) rotateY(3deg); }
 }
 
-.animate-progress {
-  animation: progress 2s ease-in-out infinite;
+/* Writing Lines Animation */
+@keyframes writing-1 {
+  0% { width: 0; }
+  100% { width: 100%; }
 }
 
-/* Custom shadow untuk hover effects */
+@keyframes writing-2 {
+  0% { width: 0; }
+  100% { width: 80%; }
+}
+
+@keyframes writing-3 {
+  0% { width: 0; }
+  100% { width: 90%; }
+}
+
+/* Floating Academic Elements */
+@keyframes float-1 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.1); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+
+/* Text Animations */
+@keyframes text-glow {
+  0%, 100% { color: #374151; }
+  50% { color: #3b82f6; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Blue Progress Dots */
+@keyframes dot-1 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.2); }
+}
+
+@keyframes dot-2 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.2); }
+}
+
+@keyframes dot-3 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.2); }
+}
+
+@keyframes dot-4 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.2); }
+}
+
+@keyframes dot-5 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.2); }
+}
+
+/* Fade In Messages */
+@keyframes fade-in-1 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-2 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Apply Animations */
+.animate-book-float {
+  animation: book-float 2.5s ease-in-out infinite;
+}
+
+.animate-writing-1 {
+  animation: writing-1 2s ease-out infinite;
+}
+
+.animate-writing-2 {
+  animation: writing-2 2s ease-out infinite 0.3s;
+}
+
+.animate-writing-3 {
+  animation: writing-3 2s ease-out infinite 0.6s;
+}
+
+.animate-float-1 {
+  animation: float-1 2s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-2 2.2s ease-in-out infinite 0.2s;
+}
+
+.animate-float-3 {
+  animation: float-3 1.8s ease-in-out infinite 0.4s;
+}
+
+.animate-float-4 {
+  animation: float-4 2.3s ease-in-out infinite 0.6s;
+}
+
+.animate-text-glow {
+  animation: text-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 1s ease-out;
+}
+
+.animate-dot-1 {
+  animation: dot-1 1.5s ease-in-out infinite;
+}
+
+.animate-dot-2 {
+  animation: dot-2 1.5s ease-in-out infinite 0.2s;
+}
+
+.animate-dot-3 {
+  animation: dot-3 1.5s ease-in-out infinite 0.4s;
+}
+
+.animate-dot-4 {
+  animation: dot-4 1.5s ease-in-out infinite 0.6s;
+}
+
+.animate-dot-5 {
+  animation: dot-5 1.5s ease-in-out infinite 0.8s;
+}
+
+.animate-fade-in-1 {
+  animation: fade-in-1 2s ease-out infinite;
+}
+
+.animate-fade-in-2 {
+  animation: fade-in-2 2s ease-out infinite 2s;
+}
+
+/* Dark Mode Support */
+.dark .animate-text-glow {
+  animation: text-glow-dark 3s ease-in-out infinite;
+}
+
+@keyframes text-glow-dark {
+  0%, 100% { color: #d1d5db; }
+  50% { color: #60a5fa; }
+}
+
+/* Existing Styles */
 .hover\:shadow-3xl:hover {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
