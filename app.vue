@@ -1,9 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div class="min-h-screen app-background">
     <NuxtPage />
   </div>
 </template>
 
-<script setup>
-// Global app component
-</script>
+<style>
+.app-background {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 50%, #f0f9ff 100%);
+  background-attachment: fixed;
+}
+</style>

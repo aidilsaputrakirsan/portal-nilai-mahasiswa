@@ -19,8 +19,19 @@ export default defineNuxtConfig({
     }
   },
 
+  // Add this
+  components: {
+    global: true,
+    dirs: ['~/components']
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: ['vue3-particles', 'tsparticles-slim']
+    }
+  },
+
   runtimeConfig: {
-    // Format: password:spreadsheetId
     mkPm: '',
     mkKka: '',
     mkKkb: '',
