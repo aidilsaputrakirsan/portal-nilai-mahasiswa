@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./components/**/*.{js,vue,ts}",
-    "./layouts/**/*.vue",
+    "./layouts/**/*.vue", 
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./app.vue",
@@ -24,13 +25,11 @@ export default {
           900: '#0c4a6e',
         }
       },
-      // Add custom shadows for glass morphism
       boxShadow: {
         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
         'glass-lg': '0 20px 40px -10px rgba(31, 38, 135, 0.25)',
         '3xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
       },
-      // Add backdrop blur values
       backdropBlur: {
         'xs': '2px',
       }

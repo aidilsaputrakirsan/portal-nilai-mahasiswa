@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen p-4 pb-20">
+  <div class="min-h-screen p-4 pb-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 transition-colors duration-500">
     <!-- Back Button -->
     <NuxtLink 
       to="/" 
-      class="inline-flex items-center text-gray-600 hover:text-gray-800 mb-4 transition-colors"
+      class="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 mb-4 transition-colors"
     >
       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -12,17 +12,17 @@
     </NuxtLink>
 
     <!-- Header -->
-    <div class="bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 p-6 mb-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-1">
+    <div class="bg-gradient-to-br from-white/95 to-white/80 dark:from-gray-800/95 dark:to-gray-700/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 dark:border-gray-600/30 p-6 mb-6">
+      <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">
         {{ mkTitle }}
       </h1>
-      <p class="text-sm text-gray-500">Data Nilai dan Absensi</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Data Nilai dan Absensi</p>
     </div>
 
     <!-- Password Form (jika belum authenticated) -->
     <div v-if="!isAuthenticated" class="max-w-md mx-auto">
-      <div class="bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+      <div class="bg-gradient-to-br from-white/95 to-white/80 dark:from-gray-800/95 dark:to-gray-700/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 dark:border-gray-600/30 p-6">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
           🔒 Masukkan Password
         </h2>
         
@@ -31,17 +31,17 @@
             v-model="passwordInput"
             type="password" 
             placeholder="Password MK"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 backdrop-blur-sm bg-white/50"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
             :class="{ 'border-red-500': errorMessage }"
           />
           
-          <p v-if="errorMessage" class="text-red-500 text-sm mb-4">
+          <p v-if="errorMessage" class="text-red-500 dark:text-red-400 text-sm mb-4">
             {{ errorMessage }}
           </p>
 
           <button 
             type="submit"
-            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 active:from-blue-800 active:to-indigo-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 active:from-blue-800 active:to-indigo-800 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             Akses Data
           </button>
@@ -62,20 +62,20 @@
             🔄
           </div>
         </div>
-        <p class="text-gray-700 font-semibold mt-6">Bentar ya, lagi ambil nilai kamu...</p>
-        <p class="text-gray-500 text-sm mt-2">Gak lama kok! 😊</p>
+        <p class="text-gray-700 dark:text-gray-300 font-semibold mt-6">Bentar ya, lagi ambil nilai kamu...</p>
+        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Gak lama kok! 😊</p>
         
         <!-- Progress Bar Animation -->
         <div class="max-w-xs mx-auto mt-4">
-          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 animate-progress"></div>
           </div>
         </div>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="errorMessage" class="bg-red-50/80 backdrop-blur-sm border border-red-200 rounded-2xl p-6 text-center shadow-lg">
-        <p class="text-red-600 mb-2">{{ errorMessage }}</p>
+      <div v-else-if="errorMessage" class="bg-red-50/80 dark:bg-red-900/20 backdrop-blur-sm border border-red-200 dark:border-red-800 rounded-2xl p-6 text-center shadow-lg">
+        <p class="text-red-600 dark:text-red-400 mb-2">{{ errorMessage }}</p>
         <button 
           @click="fetchData"
           class="mt-4 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 shadow-lg transition-all"
@@ -87,12 +87,12 @@
       <!-- Data Cards -->
       <div v-else-if="students.length > 0" class="space-y-4">
         <!-- Search Bar -->
-        <div class="bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 p-4">
+        <div class="bg-gradient-to-br from-white/95 to-white/80 dark:from-gray-800/95 dark:to-gray-700/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/30 dark:border-gray-600/30 p-4">
           <input 
             v-model="searchQuery"
             type="text"
             placeholder="🔍 Cari NIM atau Nama..."
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 backdrop-blur-sm bg-white/50"
+            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
 
@@ -100,7 +100,7 @@
         <div 
           v-for="student in filteredStudents" 
           :key="student.nim"
-          class="bg-gradient-to-br from-white/95 to-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden hover:shadow-3xl hover:scale-[1.02] transition-all duration-300"
+          class="bg-gradient-to-br from-white/95 to-white/80 dark:from-gray-800/95 dark:to-gray-700/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 dark:border-gray-600/30 overflow-hidden hover:shadow-3xl hover:scale-[1.02] transition-all duration-300"
         >
           <!-- Header Card dengan Gradient Enhanced -->
           <div class="bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-600 text-white p-5 relative overflow-hidden">
@@ -159,60 +159,60 @@
             </div>
 
             <!-- Breakdown Nilai Komponen -->
-            <h4 class="text-sm font-semibold text-gray-700 mb-3">📋 Breakdown Nilai Komponen</h4>
+            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">📋 Breakdown Nilai Komponen</h4>
 
             <!-- DMJK: 2x2 grid tanpa Peer Review -->
             <div v-if="mkCode === 'dmjk'" class="grid grid-cols-2 gap-3 mb-4">
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                <p class="text-xs text-gray-600 mb-2 font-medium">Tugas (15%)</p>
-                <p class="text-2xl font-bold text-blue-600">{{ student.tugas }}</p>
+              <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/30 dark:to-blue-800/30 backdrop-blur-sm rounded-xl p-4 border border-blue-200/50 dark:border-blue-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">Tugas (15%)</p>
+                <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">{{ student.tugas }}</p>
               </div>
-              <div class="bg-gradient-to-br from-green-50 to-green-100/50 backdrop-blur-sm rounded-xl p-4 border border-green-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                <p class="text-xs text-gray-600 mb-2 font-medium">Kehadiran (20%)</p>
-                <p class="text-2xl font-bold text-green-600">{{ student.kehadiran }}</p>
+              <div class="bg-gradient-to-br from-green-50 to-green-100/50 dark:from-green-900/30 dark:to-green-800/30 backdrop-blur-sm rounded-xl p-4 border border-green-200/50 dark:border-green-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">Kehadiran (20%)</p>
+                <p class="text-2xl font-bold text-green-600 dark:text-green-300">{{ student.kehadiran }}</p>
               </div>
-              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100/50 backdrop-blur-sm rounded-xl p-4 border border-yellow-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                <p class="text-xs text-gray-600 mb-2 font-medium">UTS (25%)</p>
-                <p class="text-2xl font-bold text-yellow-600">{{ student.uts }}</p>
+              <div class="bg-gradient-to-br from-yellow-50 to-yellow-100/50 dark:from-yellow-900/30 dark:to-yellow-800/30 backdrop-blur-sm rounded-xl p-4 border border-yellow-200/50 dark:border-yellow-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">UTS (25%)</p>
+                <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-300">{{ student.uts }}</p>
               </div>
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 backdrop-blur-sm rounded-xl p-4 border border-purple-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                <p class="text-xs text-gray-600 mb-2 font-medium">UAS (40%)</p>
-                <p class="text-2xl font-bold text-purple-600">{{ student.uas }}</p>
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-900/30 dark:to-purple-800/30 backdrop-blur-sm rounded-xl p-4 border border-purple-200/50 dark:border-purple-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">UAS (40%)</p>
+                <p class="text-2xl font-bold text-purple-600 dark:text-purple-300">{{ student.uas }}</p>
               </div>
             </div>
 
             <!-- PM, KKA, KKB: 2x2 + 1 full width (dengan Peer Review) -->
             <div v-else>
               <div class="grid grid-cols-2 gap-3 mb-4">
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                  <p class="text-xs text-gray-600 mb-2 font-medium">Tugas (15%)</p>
-                  <p class="text-2xl font-bold text-blue-600">{{ student.tugas }}</p>
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/30 dark:to-blue-800/30 backdrop-blur-sm rounded-xl p-4 border border-blue-200/50 dark:border-blue-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">Tugas (15%)</p>
+                  <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">{{ student.tugas }}</p>
                 </div>
-                <div class="bg-gradient-to-br from-green-50 to-green-100/50 backdrop-blur-sm rounded-xl p-4 border border-green-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                  <p class="text-xs text-gray-600 mb-2 font-medium">Kehadiran (10%)</p>
-                  <p class="text-2xl font-bold text-green-600">{{ student.kehadiran }}</p>
+                <div class="bg-gradient-to-br from-green-50 to-green-100/50 dark:from-green-900/30 dark:to-green-800/30 backdrop-blur-sm rounded-xl p-4 border border-green-200/50 dark:border-green-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">Kehadiran (10%)</p>
+                  <p class="text-2xl font-bold text-green-600 dark:text-green-300">{{ student.kehadiran }}</p>
                 </div>
-                <div class="bg-gradient-to-br from-yellow-50 to-yellow-100/50 backdrop-blur-sm rounded-xl p-4 border border-yellow-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                  <p class="text-xs text-gray-600 mb-2 font-medium">UTS (10%)</p>
-                  <p class="text-2xl font-bold text-yellow-600">{{ student.uts }}</p>
+                <div class="bg-gradient-to-br from-yellow-50 to-yellow-100/50 dark:from-yellow-900/30 dark:to-yellow-800/30 backdrop-blur-sm rounded-xl p-4 border border-yellow-200/50 dark:border-yellow-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">UTS (10%)</p>
+                  <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-300">{{ student.uts }}</p>
                 </div>
-                <div class="bg-gradient-to-br from-pink-50 to-pink-100/50 backdrop-blur-sm rounded-xl p-4 border border-pink-200/50 hover:shadow-lg hover:scale-105 transition-all duration-200">
-                  <p class="text-xs text-gray-600 mb-2 font-medium">Peer Review (5%)</p>
-                  <p class="text-2xl font-bold text-pink-600">{{ student.peerReview }}</p>
+                <div class="bg-gradient-to-br from-pink-50 to-pink-100/50 dark:from-pink-900/30 dark:to-pink-800/30 backdrop-blur-sm rounded-xl p-4 border border-pink-200/50 dark:border-pink-600/30 hover:shadow-lg hover:scale-105 transition-all duration-200">
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">Peer Review (5%)</p>
+                  <p class="text-2xl font-bold text-pink-600 dark:text-pink-300">{{ student.peerReview }}</p>
                 </div>
               </div>
 
               <!-- UAS - Full Width, Centered -->
-              <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 backdrop-blur-sm rounded-xl p-4 mb-4 text-center border border-purple-200/50 hover:shadow-lg transition-all duration-200">
-                <p class="text-xs text-gray-600 mb-2 font-medium">UAS (60%)</p>
-                <p class="text-3xl font-bold text-purple-600">{{ student.uas }}</p>
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-900/30 dark:to-purple-800/30 backdrop-blur-sm rounded-xl p-4 mb-4 text-center border border-purple-200/50 dark:border-purple-600/30 hover:shadow-lg transition-all duration-200">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 font-medium">UAS (60%)</p>
+                <p class="text-3xl font-bold text-purple-600 dark:text-purple-300">{{ student.uas }}</p>
               </div>
             </div>
 
             <!-- Detail Button -->
             <button 
               @click="toggleDetail(student.nim)"
-              class="w-full mt-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-xl font-semibold text-gray-700 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg group"
+              class="w-full mt-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-600 dark:hover:to-gray-500 rounded-xl font-semibold text-gray-700 dark:text-gray-200 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg group"
             >
               <span>{{ expandedCards.has(student.nim) ? 'Sembunyikan' : 'Lihat' }} Detail Mingguan</span>
               <svg 
@@ -229,32 +229,32 @@
             <!-- Detail Mingguan (Collapsible) -->
             <div 
               v-if="expandedCards.has(student.nim)"
-              class="mt-4 overflow-x-auto bg-white/50 backdrop-blur-sm rounded-xl border border-gray-200/50"
+              class="mt-4 overflow-x-auto bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-600/50"
             >
               <table class="min-w-full text-sm">
                 <thead>
-                  <tr class="bg-gradient-to-r from-gray-50 to-gray-100">
-                    <th class="px-3 py-2 text-left font-semibold text-gray-700">Minggu</th>
-                    <th class="px-3 py-2 text-center font-semibold text-gray-700">Pekan</th>
-                    <th class="px-3 py-2 text-center font-semibold text-gray-700">Tugas</th>
+                  <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600">
+                    <th class="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-200">Minggu</th>
+                    <th class="px-3 py-2 text-center font-semibold text-gray-700 dark:text-gray-200">Pekan</th>
+                    <th class="px-3 py-2 text-center font-semibold text-gray-700 dark:text-gray-200">Tugas</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="week in student.weekly" :key="week.week" class="border-b hover:bg-gray-50/50 transition-colors">
-                    <td class="px-3 py-2 font-medium text-gray-700">{{ week.week }}</td>
+                  <tr v-for="week in student.weekly" :key="week.week" class="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
+                    <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-200">{{ week.week }}</td>
                     <td class="px-3 py-2 text-center">
-                      <span class="inline-block px-2 py-1 rounded-lg bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 font-medium">
+                      <span class="inline-block px-2 py-1 rounded-lg bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-700 text-blue-700 dark:text-blue-200 font-medium">
                         {{ week.pekan }}
                       </span>
                     </td>
                     <td class="px-3 py-2 text-center">
                       <span 
                         v-if="week.tugas" 
-                        class="inline-block px-2 py-1 rounded-lg bg-gradient-to-r from-green-100 to-green-200 text-green-700 font-medium"
+                        class="inline-block px-2 py-1 rounded-lg bg-gradient-to-r from-green-100 to-green-200 dark:from-green-800 dark:to-green-700 text-green-700 dark:text-green-200 font-medium"
                       >
                         {{ week.tugas }}
                       </span>
-                      <span v-else class="text-gray-400">-</span>
+                      <span v-else class="text-gray-400 dark:text-gray-500">-</span>
                     </td>
                   </tr>
                 </tbody>
@@ -264,7 +264,7 @@
             <!-- Button Detail UAS -->
             <button 
               @click="toggleUasDetail(student.nim)"
-              class="w-full mt-3 py-3 bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-xl font-semibold text-purple-700 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg group"
+              class="w-full mt-3 py-3 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/50 dark:to-purple-800/50 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-800/60 dark:hover:to-purple-700/60 rounded-xl font-semibold text-purple-700 dark:text-purple-300 transition-all duration-200 flex items-center justify-center shadow-md hover:shadow-lg group"
             >
               <span>{{ expandedUasCards.has(student.nim) ? 'Sembunyikan' : 'Lihat' }} Detail UAS</span>
               <svg 
@@ -281,55 +281,55 @@
             <!-- Tabel Detail UAS -->
             <div 
               v-if="expandedUasCards.has(student.nim)"
-              class="mt-4 p-4 bg-gradient-to-br from-purple-50/80 to-purple-100/50 backdrop-blur-sm rounded-2xl border border-purple-200/50"
+              class="mt-4 p-4 bg-gradient-to-br from-purple-50/80 to-purple-100/50 dark:from-purple-900/30 dark:to-purple-800/30 backdrop-blur-sm rounded-2xl border border-purple-200/50 dark:border-purple-600/30"
             >
-              <h4 class="text-sm font-semibold text-gray-700 mb-3">
+              <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                 📊 Breakdown Nilai UAS
               </h4>
 
               <!-- DMJK: 4 Soal (40% total) -->
               <div v-if="mkCode === 'dmjk'">
-                <p class="text-xs text-gray-600 mb-4">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-4">
                   Nilai UAS (40%) dihitung dari: <strong>Soal 1 (5%)</strong> + <strong>Soal 2 (5%)</strong> + <strong>Soal 3 (5%)</strong> + <strong>Soal Final (25%)</strong>
                 </p>
                 
                 <div class="grid grid-cols-1 gap-3">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Soal 1 - Minggu 11</span>
-                      <span class="text-xs text-gray-500">(5%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Soal 1 - Minggu 11</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(5%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.soal1 }}
                     </p>
                   </div>
                   
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Soal 2 - Minggu 12</span>
-                      <span class="text-xs text-gray-500">(5%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Soal 2 - Minggu 12</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(5%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.soal2 }}
                     </p>
                   </div>
                   
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Soal 3 - Minggu 13</span>
-                      <span class="text-xs text-gray-500">(5%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Soal 3 - Minggu 13</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(5%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.soal3 }}
                     </p>
                   </div>
 
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Soal Final - Minggu 16</span>
-                      <span class="text-xs text-gray-500">(25%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Soal Final - Minggu 16</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(25%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.soalFinal }}
                     </p>
                   </div>
@@ -348,37 +348,37 @@
 
               <!-- PM, KKA, KKB: 3 Monitoring (60% total) -->
               <div v-else>
-                <p class="text-xs text-gray-600 mb-4">
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-4">
                   Nilai UAS (60%) dihitung dari: <strong>Monitoring 1 (15%)</strong> + <strong>Monitoring 2 (15%)</strong> + <strong>Presentasi Final (30%)</strong>
                 </p>
                 
                 <div class="grid grid-cols-1 gap-3">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Monitoring 1 - Minggu 12</span>
-                      <span class="text-xs text-gray-500">(15%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Monitoring 1 - Minggu 12</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(15%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.monitoring1 }}
                     </p>
                   </div>
                   
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Monitoring 2 - Minggu 14</span>
-                      <span class="text-xs text-gray-500">(15%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Monitoring 2 - Minggu 14</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(15%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.monitoring2 }}
                     </p>
                   </div>
                   
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 hover:shadow-md transition-all">
+                  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-3 border border-purple-200 dark:border-purple-600/50 hover:shadow-md transition-all">
                     <div class="flex justify-between items-center">
-                      <span class="text-sm text-gray-700">Presentasi Final - Minggu 16</span>
-                      <span class="text-xs text-gray-500">(30%)</span>
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Presentasi Final - Minggu 16</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">(30%)</span>
                     </div>
-                    <p class="text-2xl font-bold text-purple-600 mt-1">
+                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-300 mt-1">
                       {{ student.uasDetail.presentasiFinal }}
                     </p>
                   </div>
@@ -399,15 +399,15 @@
         </div>
 
         <!-- No Results -->
-        <div v-if="filteredStudents.length === 0" class="bg-yellow-50/80 backdrop-blur-sm border border-yellow-200 rounded-2xl p-6 text-center shadow-lg">
-          <p class="text-yellow-700">Tidak ada data yang cocok dengan pencarian "{{ searchQuery }}"</p>
+        <div v-if="filteredStudents.length === 0" class="bg-yellow-50/80 dark:bg-yellow-900/20 backdrop-blur-sm border border-yellow-200 dark:border-yellow-800 rounded-2xl p-6 text-center shadow-lg">
+          <p class="text-yellow-700 dark:text-yellow-300">Tidak ada data yang cocok dengan pencarian "{{ searchQuery }}"</p>
         </div>
       </div>
 
       <!-- Empty State -->
-      <div v-else class="bg-gray-50/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 text-center shadow-lg">
-        <p class="text-gray-600">Belum ada koneksi ke Google Sheets</p>
-        <p class="text-sm text-gray-500 mt-2">Setup Google Apps Script terlebih dahulu</p>
+      <div v-else class="bg-gray-50/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 rounded-2xl p-6 text-center shadow-lg">
+        <p class="text-gray-600 dark:text-gray-300">Belum ada koneksi ke Google Sheets</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Setup Google Apps Script terlebih dahulu</p>
       </div>
 
       <!-- Logout Button -->
@@ -697,5 +697,9 @@ onMounted(() => {
 
 .hover\:shadow-purple-500\/50:hover {
   box-shadow: 0 20px 40px -10px rgba(168, 85, 247, 0.5);
+}
+
+.dark .hover\:shadow-3xl:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 }
 </style>
